@@ -1,0 +1,8 @@
+feat: HOOD//LAUNCH — token launcher launcher on Robinhood Chain
+
+- HoodieTokenLauncherLauncher: permissionless factory, HOODIE constant
+- HoodieTokenLauncher: atomic token + funded pool launch, CEI ordering
+- HoodiePool: constant-product AMM, immutable assets, reentrancy lock
+- 29 tests passing across 6 phases
+- Security fixes: ZERO_LP_RECIPIENT guard, CEI in launchToken
+- Static site: landing page + launch app, Netlify/Vercel ready

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0d160e" />
+  <meta name="description" content="HOOD//LAUNCH: token launchers permanently paired with HOODIE on Robinhood Chain." />
+  <title>HOOD//LAUNCH — Launch the launchers</title>
+  <link rel="stylesheet" href="./site.css" />
+</head>
+<body>
+  <header class="shell nav">
+    <a class="logo" href="#top">HOOD<span>//</span>LAUNCH</a>
+    <nav><a href="#how">How it works</a><a href="#proof">The proof</a><a href="#faq">FAQ</a></nav>
+    <a class="button compact" href="./app/">Open app <i>↗</i></a>
+  </header>
+  <main id="top">
+    <section class="shell hero">
+      <div><p class="kicker"><span></span> BUILT ON ROBINHOOD CHAIN</p><h1>Launch the<br><em>launchers.</em></h1><p class="hero-text">Create a token launcher in one transaction. Every token it launches is born into a funded, immutable <b>$HOODIE</b> market.</p><div class="actions"><a class="button" href="./app/">Build a launcher <i>→</i></a><a class="text-link" href="#proof">See the invariant ↓</a></div></div>
+      <div class="art" aria-label="Every launch leads to an immutable HOODIE pool"><div class="bubble a"></div><div class="bubble b"></div><div class="node n1"><small>YOU</small><b>Token launcher</b><em>permissionless</em></div><div class="arrow ar1">↓</div><div class="node n2"><small>LAUNCH</small><b>Fixed-supply token</b><em>no mint function</em></div><div class="arrow ar2">↓</div><div class="pool"><small>IMMUTABLE POOL</small><strong>YOUR TOKEN <i>×</i> $HOODIE</strong><em>funded in the same transaction</em></div></div>
+    </section>
+    <section class="ticker">NO ADMIN KEY <b>✳</b> FUNDED AT BIRTH <b>✳</b> $HOODIE ONLY <b>✳</b> NO PROXY <b>✳</b> PERMISSIONLESS <b>✳</b> NO ADMIN KEY <b>✳</b> FUNDED AT BIRTH <b>✳</b> $HOODIE ONLY <b>✳</b></section>
+    <section class="shell intro" id="how"><p class="label">THE PRODUCT</p><div><h2>One primitive.<br>One permanent rule.</h2><p>HOOD//LAUNCH is a factory for factories. It creates token launchers, and the rule is inherited forever: launched tokens must establish a market against the exact `$HOODIE` contract.</p></div></section>
+    <section class="shell steps"><article><span>01</span><h3>Create a launcher</h3><p>Anyone creates one. There is no approval list, owner, or configuration ceremony.</p></article><article><span>02</span><h3>Set the launch</h3><p>Choose a name, ticker, fixed supply, token allocation, and the `$HOODIE` liquidity to seed.</p></article><article><span>03</span><h3>Launch a market</h3><p>The token, pool, reserves, and LP shares are created together—or the transaction reverts.</p></article></section>
+    <section class="dark" id="proof"><div class="shell proof"><div><p class="label">NOT A UI PROMISE</p><h2>The hood is<br><em>hard-coded.</em></h2><p>The `$HOODIE` contract is a Solidity constant. It cannot be swapped by a setting, an upgrade, an owner, or a different frontend.</p><a href="./app/" class="button lime">Open launch app <i>↗</i></a></div><div class="code"><div><i></i><i></i><i></i><b>HoodieTokenLauncherLauncher.sol</b></div><pre><u>address public constant</u> HOODIE =
+  0xC72c...02Ba3;
+
+<u>function</u> launchToken(...) external {
+  pair = address(<u>new</u> HoodiePool(
+    token, hoodie
+  ));
+  transferHOODIETo(pair, amount);
+  HoodiePool(pair).initialize(...);
+}</pre><p>There is no alternate quote asset.</p></div></div></section>
+    <section class="shell guards"><p class="label">DESIGNED TO BE CHECKED</p><div><article><b>01 / Immutable address</b><p>The `$HOODIE` address is compiled into the factory.</p></article><article><b>02 / Atomic liquidity</b><p>No launch event can exist without `$HOODIE` reserves in its pool.</p></article><article><b>03 / Fixed supply</b><p>Launch tokens have no privileged mint method.</p></article><article><b>04 / Public verification</b><p>Every address and event is inspectable onchain.</p></article></div></section>
+    <section class="shell cta"><p class="label">THE HOOD STAYS ON</p><h2>Make the next<br>launcher.</h2><a href="./app/" class="button">Open launch app <i>↗</i></a></section>
+    <section class="shell faq" id="faq"><p class="label">FAQ</p><details><summary>Can a launcher use another quote asset?</summary><p>No. There is no quote-token parameter anywhere in the launch flow. Each launcher inherits the exact `$HOODIE` contract from the factory.</p></details><details><summary>Who controls the protocol?</summary><p>No one has an admin switch, upgrade method, or alternative quote-asset setting in these contracts. The system is permissionless.</p></details><details><summary>Where does liquidity go?</summary><p>The creator supplies `$HOODIE`; the launcher creates the pool and forwards the remaining token allocation and LP shares to the selected recipient in the same transaction.</p></details></section>
+  </main>
+  <footer class="shell footer"><a class="logo" href="#top">HOOD<span>//</span>LAUNCH</a><span>Robinhood Chain · `$HOODIE`-only launch infrastructure</span><a href="./app/">Launch app ↗</a></footer>
+</body>
+</html>

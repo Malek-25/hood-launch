@@ -1,0 +1,20 @@
+{
+  "name": "hoodie-launcher-launcher",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "preflight:mainnet": "hardhat run scripts/preflight.js --network robinhood",
+    "preflight:testnet": "hardhat run scripts/preflight.js --network robinhoodTestnet",
+    "deploy:testnet": "hardhat run scripts/deploy.js --network robinhoodTestnet",
+    "deploy:mainnet": "hardhat run scripts/deploy.js --network robinhood",
+    "verify:testnet": "hardhat verify --network robinhoodTestnet",
+    "verify:mainnet": "hardhat verify --network robinhood"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "dotenv": "^16.4.5",
+    "hardhat": "^2.22.15"
+  }
+}
