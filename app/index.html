@@ -1,83 +1,9 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HOOD // Launcher Launcher</title>
-    <link rel="stylesheet" href="./styles.css" />
-  </head>
-  <body>
-    <main>
-      <nav><a class="brand" href="#top">HOOD<span>//</span>LAUNCH</a><button id="connect" class="outline">Connect wallet</button></nav>
-      <section class="hero" id="top">
-        <p class="eyebrow">ROBINHOOD CHAIN · PERMISSIONLESS LAUNCH INFRA</p>
-        <h1>Launch the<br><em>launchers.</em></h1>
-        <p class="lede">Every token made through this stack is born into an immutable, funded <strong>$HOODIE</strong> pool. The hood stays on.</p>
-        <div class="invariant"><span>01</span><p><b>Immutable by code</b><br>$HOODIE is a Solidity constant—not a setting.</p><span>02</span><p><b>Liquidity at birth</b><br>A token launch requires funded $HOODIE liquidity.</p></div>
-      </section>
-
-      <section class="grid">
-        <article class="card config">
-          <p class="number">01 / DEPLOYMENT</p><h2>Point at your factory</h2>
-          <label>Launcher Launcher address<input id="factory" placeholder="0x…" autocomplete="off" /></label>
-          <p class="hint">Set this after deploying <code>HoodieTokenLauncherLauncher</code> on Robinhood Chain.</p>
-          <button id="saveFactory">Verify &amp; save factory</button>
-          <button id="copyFactoryLink" class="secondary" hidden>Copy share link</button>
-        </article>
-
-        <article class="card">
-          <p class="number">02 / CREATE</p><h2>Make a token launcher</h2>
-          <p class="hint">Anyone can create one. Its $HOODIE rule is permanently inherited.</p>
-          <button id="createLauncher">Create launcher <span>→</span></button>
-          <p id="launcherResult" class="result"></p>
-          <div class="history">
-            <p class="hint">Use the launcher address below to read its onchain launch history.</p>
-            <button id="loadHistory">Load launcher history</button>
-            <div id="historyResult" class="result"></div>
-          </div>
-          <div class="history">
-            <label>Pool address<input id="pool" placeholder="0x…" autocomplete="off" /></label>
-            <button id="inspectPool">Inspect $HOODIE pool</button>
-            <div id="poolResult" class="result"></div>
-          </div>
-          <div class="history">
-            <label>Swap direction<select id="swapDirection"><option value="hoodie">$HOODIE → token</option><option value="token">Token → $HOODIE</option></select></label>
-            <label>Amount in<input id="swapAmount" type="number" min="0" step="any" placeholder="0.0" /></label>
-            <label>Minimum amount out<input id="swapMinOut" type="number" min="0" step="any" placeholder="0.0" /></label>
-            <button id="quoteSwap" class="secondary">Get reserve quote</button>
-            <button id="swap">Approve &amp; swap</button>
-            <div id="swapResult" class="result"></div>
-          </div>
-          <div class="history">
-            <p class="hint">Liquidity additions must match the pool’s current token/$HOODIE ratio.</p>
-            <label>Token liquidity<input id="addToken" type="number" min="0" step="any" placeholder="0.0" /></label>
-            <label>$HOODIE liquidity<input id="addHoodie" type="number" min="0" step="any" placeholder="0.0" /></label>
-            <button id="quoteLiquidity" class="secondary">Calculate matching liquidity</button>
-            <button id="addLiquidity">Approve &amp; add liquidity</button>
-            <label>LP shares to remove<input id="removeShares" type="number" min="0" step="any" placeholder="0.0" /></label>
-            <button id="removeLiquidity">Remove liquidity</button>
-            <div id="liquidityResult" class="result"></div>
-          </div>
-        </article>
-      </section>
-
-      <section class="card launch">
-        <p class="number">03 / LAUNCH</p><h2>Mint + seed a $HOODIE market</h2>
-        <div class="formgrid">
-          <label>Token launcher address<input id="launcher" placeholder="0x…" autocomplete="off" /></label>
-          <label>Token name<input id="tokenName" placeholder="Example Coin" maxlength="64" /></label>
-          <label>Ticker<input id="tokenSymbol" placeholder="EXAMPLE" maxlength="12" /></label>
-          <label>Fixed total supply<input id="supply" type="number" min="1" placeholder="1000000000" /></label>
-          <label>Tokens into pool<input id="tokenLiquidity" type="number" min="1" placeholder="800000000" /></label>
-          <label>$HOODIE into pool<input id="hoodieLiquidity" type="number" min="0" step="any" placeholder="1000000" /></label>
-        </div>
-        <p class="hint">Your wallet receives the remaining tokens and the LP shares. Approving and launching are two separate wallet prompts.</p>
-        <button id="launchToken">Approve $HOODIE &amp; launch <span>↗</span></button>
-        <p id="launchResult" class="result"></p>
-      </section>
-      <footer><span>HOOD//LAUNCH</span><span>Immutable $HOODIE pairs · No custody · No admin key</span></footer>
-    </main>
-    <div id="toast" role="status"></div>
-    <script type="module" src="./app.js"></script>
-  </body>
-</html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>HoodiePad — Create a $HOODIE launcher</title><link rel="stylesheet" href="./styles.css"/></head>
+<body><main><nav><a class="brand" href="#top">HOODIE<span>PAD</span></a><button id="connect" class="ghost">Connect wallet</button></nav>
+<section class="hero" id="top"><p class="eyebrow">ROBINHOOD CHAIN · POWERED BY $HOODIE</p><h1>Make your own<br/><em>token launcher.</em></h1><p>One launcher. One immutable rule: every token it creates launches with $HOODIE liquidity.</p><div class="rule"><b>∞</b><span>Your launcher is permanent. The $HOODIE pairing rule cannot be changed.</span></div></section>
+<section class="journey"><div class="step active"><span>01</span><b>Create your launcher</b><small>Your own permanent $HOODIE token launcher.</small></div><div class="line"></div><div class="step" id="tokenStep"><span>02</span><b>Launch a token</b><small>Give it a name and seed its $HOODIE market.</small></div></section>
+<section class="panel" id="createPanel"><p class="eyebrow">STEP 01</p><h2>Create your launcher</h2><p class="muted">This is your launchpad. Anything launched through it will always be paired with $HOODIE.</p><button id="createLauncher">Create my launcher <i>→</i></button><p id="launcherResult" class="result"></p></section>
+<section class="panel locked" id="tokenPanel"><p class="eyebrow">STEP 02</p><h2>Launch your first token</h2><p class="muted">You pick the name, ticker, and initial $HOODIE liquidity. The rest uses simple defaults.</p><div class="form"><label>Token name<input id="tokenName" placeholder="My Token" maxlength="64"/></label><label>Ticker<input id="tokenSymbol" placeholder="TOKEN" maxlength="12"/></label><label>$HOODIE liquidity<input id="hoodieLiquidity" type="number" min="0" step="any" placeholder="1000"/></label></div><details><summary>Advanced launch settings</summary><div class="form"><label>Total supply<input id="supply" type="number" min="1" value="1000000000"/></label><label>Tokens in liquidity<input id="tokenLiquidity" type="number" min="1" value="800000000"/></label></div></details><p class="muted">You’ll approve $HOODIE, then confirm the launch. Your wallet receives the remaining tokens and LP shares.</p><button id="launchToken">Launch token <i>↗</i></button><p id="launchResult" class="result"></p></section>
+<details class="advanced"><summary>Advanced tools</summary><p>Pool management and trading tools will live here after the simple launch flow is complete.</p></details>
+<footer>HOODIEPAD · EVERY LAUNCHER IS $HOODIE-ONLY</footer></main><div id="toast" role="status"></div><script src="./config.js"></script><script type="module" src="./app.js"></script></body></html>
