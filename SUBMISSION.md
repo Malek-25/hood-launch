@@ -142,4 +142,4 @@ Fill in the two placeholders once the site is live and the factory is verified o
 >
 > Factory: `0x[DEPLOYED FACTORY ADDRESS]`
 > Live app: [HOSTED URL]
-> Code: [REPO / SOURCE LINK]
+> Code: https://github.com/Malek-25/hood-launch

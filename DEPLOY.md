@@ -76,10 +76,10 @@ Open `https://robinhoodchain.blockscout.com/address/0xDEF...456` and confirm sou
 
 ### Netlify (recommended)
 
-1. Push the repository root to a public GitHub repo.
-2. Connect it to Netlify. Build command: *(leave blank)*. Publish directory: `.`
-3. The `netlify.toml` security headers are applied automatically.
-4. Note the live URL, e.g. `https://hoodlaunch.netlify.app`.
+1. Repo is already at https://github.com/Malek-25/hood-launch.
+2. Go to netlify.com → "Add new site" → "Import an existing project" → connect GitHub → select `Malek-25/hood-launch`.
+3. Build command: *(leave blank)*. Publish directory: `.`
+4. Click Deploy. Note the live URL (e.g. `https://hood-launch.netlify.app`).
 
 ### Vercel alternative
 
