@@ -7,14 +7,23 @@
 <section class="panel locked" id="tokenPanel"><p class="eyebrow">STEP 02</p><h2>Launch your first token</h2><p class="muted" id="launchpadBadge">Using your launchpad to create tokens paired with $HOODIE.</p>
 
 <div id="needHoodie" class="info-box hidden">
-  <strong>⚠️ Need $HOODIE to launch?</strong>
-  <p>Every token must launch with $HOODIE liquidity. Here's how to get it:</p>
-  <ul>
-    <li><a href="https://robinhoodchain.blockscout.com/address/0xC72c01AAB5f5678dc1d6f5C6d2B417d91D402Ba3" target="_blank">View $HOODIE on Blockscout ↗</a></li>
-    <li>Trade on DEXes that support Robinhood Chain</li>
-    <li>Bridge from other networks if available</li>
-  </ul>
-  <button onclick="this.parentElement.classList.add('hidden')" style="margin-top:8px;padding:6px 12px;background:var(--ink);color:white;border:0;cursor:pointer;font-size:12px;">Got it</button>
+  <strong>💰 How to get $HOODIE</strong>
+  <p>Every token must launch with $HOODIE liquidity. Here's where to get it:</p>
+  <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px;">
+    <a href="https://app.uniswap.org/explore/tokens/robinhood/0xC72c01AAB5f5678dc1d6f5C6d2B417d91D402Ba3" target="_blank" class="hoodie-link" style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#fff;border:1px solid #e0e0e0;border-radius:4px;text-decoration:none;color:var(--ink);font-weight:600;">
+      <span>🦄 Buy on Uniswap</span>
+      <span style="color:var(--acid);">→</span>
+    </a>
+    <a href="https://hoodie.fun/" target="_blank" class="hoodie-link" style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#fff;border:1px solid #e0e0e0;border-radius:4px;text-decoration:none;color:var(--ink);font-weight:600;">
+      <span>🌐 Visit hoodie.fun</span>
+      <span style="color:var(--acid);">→</span>
+    </a>
+    <a href="https://x.com/thehoodstayson" target="_blank" class="hoodie-link" style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#fff;border:1px solid #e0e0e0;border-radius:4px;text-decoration:none;color:var(--ink);font-weight:600;">
+      <span>𝕏 Follow on Twitter</span>
+      <span style="color:var(--acid);">→</span>
+    </a>
+  </div>
+  <button onclick="this.parentElement.classList.add('hidden')" style="margin-top:12px;padding:8px 14px;background:var(--ink);color:white;border:0;cursor:pointer;font-size:12px;border-radius:4px;width:100%;">Got it, thanks!</button>
 </div>
 
 <div id="tokenPreview" class="token-preview hidden">
@@ -40,4 +49,14 @@
   <button id="launchAnother" class="success-btn-another">Launch another token →</button>
 </div></section>
 <details class="advanced"><summary>Advanced tools</summary><p>Pool management and trading tools will live here after the simple launch flow is complete.</p></details>
-<footer>HOODIEPAD · EVERY LAUNCHER IS $HOODIE-ONLY</footer></main><div id="toast" role="status"></div><script src="./config.js"></script><script type="module" src="./app.js"></script></body></html>
+<footer>
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
+    <div>HOODIEPAD · EVERY LAUNCHER IS $HOODIE-ONLY</div>
+    <div style="display:flex;gap:16px;font-size:12px;">
+      <a href="https://hoodie.fun/" target="_blank" style="color:var(--acid);text-decoration:none;">hoodie.fun ↗</a>
+      <a href="https://x.com/thehoodstayson" target="_blank" style="color:var(--acid);text-decoration:none;">𝕏 Twitter ↗</a>
+      <a href="https://app.uniswap.org/explore/tokens/robinhood/0xC72c01AAB5f5678dc1d6f5C6d2B417d91D402Ba3" target="_blank" style="color:var(--acid);text-decoration:none;">Buy $HOODIE ↗</a>
+      <a href="https://robinhoodchain.blockscout.com/address/0xC72c01AAB5f5678dc1d6f5C6d2B417d91D402Ba3" target="_blank" style="color:var(--muted);text-decoration:none;">Contract ↗</a>
+    </div>
+  </div>
+</footer></main><div id="toast" role="status"></div><script src="./config.js"></script><script type="module" src="./app.js"></script></body></html>
