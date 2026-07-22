@@ -39,4 +39,7 @@
 .stat{display:flex;flex-direction:column;gap:4px}
 .stat-num{font:700 32px 'Space Grotesk',sans-serif;color:var(--acid);letter-spacing:-.02em}
 .stat-label{font:11px 'DM Mono',monospace;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.explore-tab{background:transparent;border:0;padding:8px 16px;font:600 13px 'Space Grotesk',sans-serif;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent}
+.explore-tab.active{color:var(--ink);border-bottom-color:var(--acid)}
+.explore-tab:hover{color:var(--ink)}
 @media(max-width:560px){.form{grid-template-columns:1fr}.hero{padding-top:58px}.journey{gap:6px}.step{padding:10px}.step small{display:none}.stats{flex-direction:column;gap:16px}}

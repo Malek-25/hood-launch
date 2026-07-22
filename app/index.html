@@ -48,16 +48,36 @@
   <button id="successShare" class="success-btn-share">Copy share link</button>
   <button id="launchAnother" class="success-btn-another">Launch another token →</button>
 </div></section>
-<details class="advanced"><summary>Explore launchers & tokens</summary>
-<div id="exploreLaunchers">
-  <h3 style="font-size:18px;margin:16px 0 12px;">Recent Launchers</h3>
-  <div id="launchersList" style="display:flex;flex-direction:column;gap:8px;"></div>
+<details class="advanced" id="exploreSection"><summary>Explore launchers & tokens</summary>
+
+<div style="display:flex;gap:12px;margin:16px 0;border-bottom:1px solid var(--line);padding-bottom:12px;" id="exploreTabs">
+  <button class="explore-tab active" data-tab="all">All Launches</button>
+  <button class="explore-tab" data-tab="mine" id="myTab" style="display:none;">My Launches</button>
 </div>
-<div id="exploreTokens" style="margin-top:24px;">
-  <h3 style="font-size:18px;margin:16px 0 12px;">Recent Tokens</h3>
-  <div id="tokensList" style="display:flex;flex-direction:column;gap:8px;"></div>
+
+<div id="exploreAll">
+  <div id="exploreLaunchers">
+    <h3 style="font-size:18px;margin:16px 0 12px;">Recent Launchers</h3>
+    <div id="launchersList" style="display:flex;flex-direction:column;gap:8px;"></div>
+  </div>
+  <div id="exploreTokens" style="margin-top:24px;">
+    <h3 style="font-size:18px;margin:16px 0 12px;">Recent Tokens</h3>
+    <div id="tokensList" style="display:flex;flex-direction:column;gap:8px;"></div>
+  </div>
 </div>
-<button id="loadExplore" style="margin-top:12px;padding:10px;width:100%;background:var(--ink);color:white;border:0;cursor:pointer;font-size:13px;">Load recent launches</button>
+
+<div id="exploreMine" style="display:none;">
+  <div id="myLaunchers">
+    <h3 style="font-size:18px;margin:16px 0 12px;">Your Launchers</h3>
+    <div id="myLaunchersList" style="display:flex;flex-direction:column;gap:8px;"></div>
+  </div>
+  <div id="myTokens" style="margin-top:24px;">
+    <h3 style="font-size:18px;margin:16px 0 12px;">Your Tokens</h3>
+    <div id="myTokensList" style="display:flex;flex-direction:column;gap:8px;"></div>
+  </div>
+</div>
+
+<button id="loadExplore" style="margin-top:12px;padding:10px;width:100%;background:var(--ink);color:white;border:0;cursor:pointer;font-size:13px;border-radius:4px;">Load recent launches</button>
 </details>
 <footer>
   <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
