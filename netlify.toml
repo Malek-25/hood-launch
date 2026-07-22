@@ -1,6 +1,11 @@
 [build]
   publish = "."
 
+[[redirects]]
+  from = "/launcher/*"
+  to = "/app/launcher/index.html"
+  status = 200
+
 [[headers]]
   for = "/*"
   [headers.values]
