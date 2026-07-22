@@ -1,10 +1,34 @@
 <!doctype html>
 <html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>HoodiePad — Create a $HOODIE launcher</title><link rel="stylesheet" href="./styles.css"/></head>
 <body><main><nav><a class="brand" href="#top">HOODIE<span>PAD</span></a><div class="wallet-wrap"><button id="connect" class="ghost">Connect wallet</button><div id="walletMenu" class="wallet-menu hidden"><p id="walletAddr" class="wallet-full-addr"></p><button id="copyAddr" class="wallet-menu-btn">Copy address</button><button id="disconnectBtn" class="wallet-menu-btn red">Disconnect</button></div></div></nav>
-<section class="hero" id="top"><p class="eyebrow">ROBINHOOD CHAIN · POWERED BY $HOODIE</p><h1>Make your own<br/><em>launchpad.</em></h1><p>Create your branded token launcher. Every token it creates launches with $HOODIE liquidity.</p><div class="rule"><b>∞</b><span>Your launchpad is permanent. The $HOODIE pairing rule cannot be changed.</span></div></section>
+<section class="hero" id="top"><p class="eyebrow">ROBINHOOD CHAIN · POWERED BY $HOODIE</p><h1>Make your own<br/><em>launchpad.</em></h1><p>Create your branded token launcher. Every token it creates launches with $HOODIE liquidity.</p><div class="rule"><b>∞</b><span>Your launchpad is permanent. The $HOODIE pairing rule cannot be changed.</span></div><div class="stats"><div class="stat"><span class="stat-num" id="statLaunchers">—</span><span class="stat-label">Launchers created</span></div><div class="stat"><span class="stat-num" id="statTokens">—</span><span class="stat-label">Tokens launched</span></div></div></section>
 <section class="journey"><div class="step active"><span>01</span><b>Create your launchpad</b><small>Your own branded $HOODIE token launcher.</small></div><div class="line"></div><div class="step" id="tokenStep"><span>02</span><b>Launch a token</b><small>Give it a name and seed its $HOODIE market.</small></div></section>
 <section class="panel" id="createPanel"><p class="eyebrow">STEP 01</p><h2>Create your launchpad</h2><p class="muted">Give your launchpad a name. Everything you launch through it will be permanently paired with $HOODIE.</p><div class="form"><label>Your launchpad name<input id="launchpadName" placeholder="RocketPad" maxlength="32"/></label></div><button id="createLauncher">Create my launchpad <i>→</i></button><p id="launcherResult" class="result"></p></section>
-<section class="panel locked" id="tokenPanel"><p class="eyebrow">STEP 02</p><h2>Launch your first token</h2><p class="muted" id="launchpadBadge">Using your launchpad to create tokens paired with $HOODIE.</p><div class="form"><label>Token name<input id="tokenName" placeholder="My Token" maxlength="64"/></label><label>Ticker<input id="tokenSymbol" placeholder="TOKEN" maxlength="12"/></label><label>Initial $HOODIE<input id="hoodieLiquidity" type="number" min="0" step="any" placeholder="1000"/><small style="display:block;margin-top:4px;font-size:11px;color:var(--muted);">Amount of $HOODIE to pair with your token</small></label></div><details><summary>Advanced launch settings</summary><div class="form"><label>Total supply<input id="supply" type="number" min="1" value="1000000000"/></label><label>Tokens in launch<input id="tokenLiquidity" type="number" min="1" value="800000000"/></label></div></details><p class="muted">Approve $HOODIE, then confirm your launch.</p><button id="launchToken">Launch token <i>↗</i></button><p id="launchResult" class="result"></p>
+<section class="panel locked" id="tokenPanel"><p class="eyebrow">STEP 02</p><h2>Launch your first token</h2><p class="muted" id="launchpadBadge">Using your launchpad to create tokens paired with $HOODIE.</p>
+
+<div id="needHoodie" class="info-box hidden">
+  <strong>⚠️ Need $HOODIE to launch?</strong>
+  <p>Every token must launch with $HOODIE liquidity. Here's how to get it:</p>
+  <ul>
+    <li><a href="https://robinhoodchain.blockscout.com/address/0xC72c01AAB5f5678dc1d6f5C6d2B417d91D402Ba3" target="_blank">View $HOODIE on Blockscout ↗</a></li>
+    <li>Trade on DEXes that support Robinhood Chain</li>
+    <li>Bridge from other networks if available</li>
+  </ul>
+  <button onclick="this.parentElement.classList.add('hidden')" style="margin-top:8px;padding:6px 12px;background:var(--ink);color:white;border:0;cursor:pointer;font-size:12px;">Got it</button>
+</div>
+
+<div id="tokenPreview" class="token-preview hidden">
+  <div class="preview-card">
+    <div class="preview-icon" id="previewIcon">🚀</div>
+    <div class="preview-info">
+      <p class="preview-name" id="previewName">Your Token</p>
+      <p class="preview-ticker" id="previewTicker">TOKEN</p>
+      <p class="preview-pair">Paired with <span style="color:var(--acid);">$HOODIE</span></p>
+    </div>
+  </div>
+</div>
+
+<div class="form"><label>Token name<input id="tokenName" placeholder="My Token" maxlength="64"/></label><label>Ticker<input id="tokenSymbol" placeholder="TOKEN" maxlength="12"/></label><label>Token emoji/icon (optional)<input id="tokenIcon" placeholder="🚀" maxlength="2"/></label><label>Initial $HOODIE<input id="hoodieLiquidity" type="number" min="0" step="any" placeholder="1000"/><small style="display:block;margin-top:4px;font-size:11px;color:var(--muted);">Amount of $HOODIE to pair with your token</small></label></div><details><summary>Advanced launch settings</summary><div class="form"><label>Total supply<input id="supply" type="number" min="1" value="1000000000"/></label><label>Tokens in launch<input id="tokenLiquidity" type="number" min="1" value="800000000"/></label></div></details><p class="muted">Approve $HOODIE, then confirm your launch.</p><button id="launchToken">Launch token <i>↗</i></button><p id="launchResult" class="result"></p>
 <div id="successCard" class="success-card hidden">
   <div class="success-header"><span class="success-tick">✓</span><div><p class="success-title" id="successName"></p><p class="success-sub">is live on $HOODIE</p></div></div>
   <div class="success-links">
