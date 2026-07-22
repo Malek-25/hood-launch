@@ -19,4 +19,6 @@
 .success-btn-share{background:var(--acid);color:var(--ink);border:0;padding:13px;font:600 14px 'Space Grotesk',sans-serif;cursor:pointer;width:100%}
 .success-btn-share:hover{opacity:.9}
 .success-btn-another{background:transparent;color:#7a9a7c;border:0;padding:8px 0;font:500 13px 'DM Mono',monospace;cursor:pointer;text-align:left}
-.success-btn-another:hover{color:white}@media(max-width:560px){.form{grid-template-columns:1fr}.hero{padding-top:58px}.journey{gap:6px}.step{padding:10px}.step small{display:none}}
+.success-btn-another:hover{color:white}
+#launchpadBadge strong{color:var(--acid);font-weight:700}
+@media(max-width:560px){.form{grid-template-columns:1fr}.hero{padding-top:58px}.journey{gap:6px}.step{padding:10px}.step small{display:none}}
