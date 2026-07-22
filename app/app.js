@@ -9,6 +9,7 @@ const $ = id => document.getElementById(id); let provider, signer, account, laun
 const toast = text => { $("toast").textContent=text; $("toast").classList.add("show"); setTimeout(()=>$("toast").classList.remove("show"),4000); };
 const txUrl = hash => `https://robinhoodchain.blockscout.com/tx/${hash}`;
 const factoryAddress = () => window.HOODIEPAD_FACTORY_ADDRESS || new URLSearchParams(location.search).get("factory") || "";
+const urlParams = new URLSearchParams(location.search);
 
 function showWalletMenu(show){ $("walletMenu").classList.toggle("hidden", !show); }
 function setConnected(addr){ account=addr; $("connect").textContent=`${addr.slice(0,6)}…${addr.slice(-4)}`; $("walletAddr").textContent=addr; }
@@ -20,6 +21,51 @@ $("copyAddr").onclick = e => { e.stopPropagation(); navigator.clipboard.writeTex
 document.addEventListener("click", e => { if(!e.target.closest(".wallet-wrap")) showWalletMenu(false); });
 async function wallet(){ if(signer)return; if(!window.ethereum)throw new Error("Connect an EVM wallet to continue."); provider=new BrowserProvider(window.ethereum); await provider.send("eth_requestAccounts",[]); try{await provider.send("wallet_switchEthereumChain",[{chainId:CHAIN.chainId}]);}catch(e){if(e.code===4902)await provider.send("wallet_addEthereumChain",[CHAIN]);else throw e;} signer=await provider.getSigner(); setConnected(await signer.getAddress()); await restoreLauncher(); }
 async function factory(){ const address=factoryAddress(); if(!isAddress(address))throw new Error("HoodiePad is not configured yet. Add the deployed factory address in app/config.js."); const c=new Contract(address,factoryAbi,signer||provider); if((await c.HOODIE()).toLowerCase()!==HOODIE.toLowerCase())throw new Error("This is not the verified $HOODIE HoodiePad factory."); return c; }
-async function restoreLauncher(){ const saved=localStorage.getItem("hoodiepad.launcher"); const savedName=localStorage.getItem("hoodiepad.launchpadName"); if(isAddress(saved||"")) launcherAddress=saved; if(savedName) launchpadName=savedName; try{const launchers=await (await factory()).launchersFor(account); if(launchers.length) launcherAddress=launchers.at(-1);}catch{} if(launcherAddress){localStorage.setItem("hoodiepad.launcher",launcherAddress);$("tokenPanel").classList.remove("locked");$("tokenStep").classList.add("active");$("launcherResult").innerHTML=`<strong>${launchpadName || "Your launchpad"}</strong> is ready to use. <a href="https://robinhoodchain.blockscout.com/address/${launcherAddress}" target="_blank">${launcherAddress.slice(0,8)}…${launcherAddress.slice(-6)} ↗</a>`;$("launchpadBadge").innerHTML=`Using <strong>${launchpadName || "your launchpad"}</strong> to create tokens paired with $HOODIE.`;} }
-$("createLauncher").onclick=async()=>{try{await wallet();const name=$("launchpadName").value.trim()||"My Launchpad";const c=await factory();toast("Confirm creation in your wallet…");const tx=await c.createLauncher();$("launcherResult").innerHTML=`Creating <strong>${name}</strong>… <a href="${txUrl(tx.hash)}" target="_blank">view ↗</a>`;await tx.wait();launcherAddress=(await c.launchersFor(account)).at(-1);launchpadName=name;localStorage.setItem("hoodiepad.launcher",launcherAddress);localStorage.setItem("hoodiepad.launchpadName",name);$("launcherResult").innerHTML=`<strong>${name}</strong> is live! <a href="https://robinhoodchain.blockscout.com/address/${launcherAddress}" target="_blank">${launcherAddress.slice(0,8)}…${launcherAddress.slice(-6)} ↗</a>`;$("launchpadBadge").innerHTML=`Using <strong>${name}</strong> to create tokens paired with $HOODIE.`;$("tokenPanel").classList.remove("locked");$("tokenStep").classList.add("active");$("createPanel").scrollIntoView({behavior:"smooth"});toast(`${name} created. Scroll down to launch your first token.`);}catch(e){toast(e.shortMessage||e.message);}};
+async function restoreLauncher(){ 
+  // Check URL params first (shareable launcher link)
+  const urlLauncher = urlParams.get("launcher");
+  const urlName = urlParams.get("name");
+  if(isAddress(urlLauncher||"")) {
+    launcherAddress = urlLauncher;
+    launchpadName = urlName || "Shared Launchpad";
+    localStorage.setItem("hoodiepad.launcher", launcherAddress);
+    localStorage.setItem("hoodiepad.launchpadName", launchpadName);
+    $("tokenPanel").classList.remove("locked");
+    $("tokenStep").classList.add("active");
+    $("launcherResult").innerHTML=`<strong>${launchpadName}</strong> is ready to use. <a href="https://robinhoodchain.blockscout.com/address/${launcherAddress}" target="_blank">${launcherAddress.slice(0,8)}…${launcherAddress.slice(-6)} ↗</a>`;
+    $("launchpadBadge").innerHTML=`Using <strong>${launchpadName}</strong> to create tokens paired with $HOODIE.`;
+    $("createPanel").style.display = "none"; // Hide launcher creation when using shared link
+    return;
+  }
+  
+  // Otherwise check localStorage and on-chain
+  const saved=localStorage.getItem("hoodiepad.launcher"); 
+  const savedName=localStorage.getItem("hoodiepad.launchpadName"); 
+  if(isAddress(saved||"")) launcherAddress=saved; 
+  if(savedName) launchpadName=savedName; 
+  try{const launchers=await (await factory()).launchersFor(account); if(launchers.length) launcherAddress=launchers.at(-1);}catch{} 
+  if(launcherAddress){
+    localStorage.setItem("hoodiepad.launcher",launcherAddress);
+    $("tokenPanel").classList.remove("locked");
+    $("tokenStep").classList.add("active");
+    $("launcherResult").innerHTML=`<strong>${launchpadName || "Your launchpad"}</strong> is ready to use. <a href="https://robinhoodchain.blockscout.com/address/${launcherAddress}" target="_blank">${launcherAddress.slice(0,8)}…${launcherAddress.slice(-6)} ↗</a> <button id="createNewLauncher" style="margin-left:12px;padding:6px 10px;font-size:12px;background:transparent;color:var(--muted);border:1px solid var(--line);">Create another</button>`;
+    $("launchpadBadge").innerHTML=`Using <strong>${launchpadName || "your launchpad"}</strong> to create tokens paired with $HOODIE.`;
+    // Add event listener for "Create another" button
+    setTimeout(() => {
+      const btn = $("createNewLauncher");
+      if(btn) btn.onclick = () => {
+        launcherAddress = undefined;
+        launchpadName = undefined;
+        localStorage.removeItem("hoodiepad.launcher");
+        localStorage.removeItem("hoodiepad.launchpadName");
+        $("launcherResult").innerHTML = "";
+        $("launchpadName").value = "";
+        $("tokenPanel").classList.add("locked");
+        $("tokenStep").classList.remove("active");
+        toast("Create a new launchpad below.");
+      };
+    }, 100);
+  } 
+}
+$("createLauncher").onclick=async()=>{try{await wallet();const name=$("launchpadName").value.trim()||"My Launchpad";const c=await factory();toast("Confirm creation in your wallet…");const tx=await c.createLauncher();$("launcherResult").innerHTML=`Creating <strong>${name}</strong>… <a href="${txUrl(tx.hash)}" target="_blank">view ↗</a>`;await tx.wait();launcherAddress=(await c.launchersFor(account)).at(-1);launchpadName=name;localStorage.setItem("hoodiepad.launcher",launcherAddress);localStorage.setItem("hoodiepad.launchpadName",name);const shareUrl=`${location.origin}${location.pathname}?launcher=${launcherAddress}&name=${encodeURIComponent(name)}`;$("launcherResult").innerHTML=`<strong>${name}</strong> is live! <a href="https://robinhoodchain.blockscout.com/address/${launcherAddress}" target="_blank">${launcherAddress.slice(0,8)}…${launcherAddress.slice(-6)} ↗</a><br><br><div style="background:var(--acid);padding:12px;margin-top:10px;"><strong style="display:block;margin-bottom:6px;font-size:13px;">📋 Share your launchpad:</strong><input readonly value="${shareUrl}" style="width:100%;padding:8px;font-size:11px;border:1px solid #8acc00;" onclick="this.select()"/><button onclick="navigator.clipboard.writeText('${shareUrl}').then(()=>toast('Launchpad link copied!')).catch(()=>toast('${shareUrl}'))" style="margin-top:6px;width:100%;padding:8px;background:var(--ink);color:white;border:0;cursor:pointer;font-size:12px;">Copy link</button></div>`;$("launchpadBadge").innerHTML=`Using <strong>${name}</strong> to create tokens paired with $HOODIE.`;$("tokenPanel").classList.remove("locked");$("tokenStep").classList.add("active");$("createPanel").scrollIntoView({behavior:"smooth"});toast(`${name} created. Scroll down to launch your first token.`);}catch(e){toast(e.shortMessage||e.message);}};
 $("launchToken").onclick=async()=>{try{await wallet();if(!launcherAddress)throw new Error("Create your launcher first.");const name=$("tokenName").value.trim(),symbol=$("tokenSymbol").value.trim(),hoodieRaw=$("hoodieLiquidity").value.trim();if(!name||!symbol||!hoodieRaw)throw new Error("Add a name, ticker, and $HOODIE liquidity amount.");const supply=parseUnits($("supply").value,18),tokenLiq=parseUnits($("tokenLiquidity").value,18),hoodieLiq=parseUnits(hoodieRaw,18);if(tokenLiq>=supply)throw new Error("Liquidity tokens must be lower than total supply.");toast("Step 1 of 2: approve $HOODIE…");await (await new Contract(HOODIE,erc20Abi,signer).approve(launcherAddress,hoodieLiq)).wait();toast("Step 2 of 2: launching token…");const l=new Contract(launcherAddress,launcherAbi,signer),tx=await l.launchToken(name,symbol,supply,tokenLiq,hoodieLiq,account);$("launchResult").innerHTML=`Launching… <a href="${txUrl(tx.hash)}" target="_blank">view ↗</a>`;const receipt=await tx.wait();const event=receipt.logs.map(x=>{try{return l.interface.parseLog(x)}catch{return null}}).find(event=>event?.name==="TokenLaunched");const tokenAddr=event?.args?.token;const poolAddr=event?.args?.pair;$("launchResult").innerHTML="";$("successName").textContent=`${name} (${symbol})`;$("successToken").href=`https://robinhoodchain.blockscout.com/address/${tokenAddr}`;$("successToken").textContent=`${tokenAddr?.slice(0,10)}…${tokenAddr?.slice(-8)}`;$("successPool").href=`https://robinhoodchain.blockscout.com/address/${poolAddr}`;$("successPool").textContent=`${poolAddr?.slice(0,10)}…${poolAddr?.slice(-8)}`;$("successTx").href=txUrl(tx.hash);const shareUrl=`${location.href}?token=${tokenAddr}`;$("successShare").onclick=()=>navigator.clipboard.writeText(shareUrl).then(()=>toast("Share link copied.")).catch(()=>toast(shareUrl));$("successCard").classList.remove("hidden");$("launchAnother").onclick=()=>{$("successCard").classList.add("hidden");$("tokenName").value="";$("tokenSymbol").value="";$("hoodieLiquidity").value="";$("launchResult").innerHTML="";};toast(`${name} is live on $HOODIE.`);}catch(e){toast(e.shortMessage||e.message);}};
