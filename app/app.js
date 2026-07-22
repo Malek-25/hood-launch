@@ -2,7 +2,7 @@ import { BrowserProvider, Contract, Interface, isAddress, parseUnits } from "htt
 
 const HOODIE = "0xC72c01AAB5f5678dc1d6f5C6d2B417d91D402Ba3";
 const CHAIN = { chainId:"0x1237", chainName:"Robinhood Chain", nativeCurrency:{name:"Ether",symbol:"ETH",decimals:18}, rpcUrls:["https://rpc.mainnet.chain.robinhood.com"], blockExplorerUrls:["https://robinhoodchain.blockscout.com"] };
-const factoryAbi = ["function createLauncher() returns (address)","function launchersFor(address) view returns (address[])","function HOODIE() view returns (address)"];
+const factoryAbi = ["function createLauncher() returns (address)","function launchersFor(address) view returns (address[])","function HOODIE() view returns (address)","function launcherCount() view returns (uint256)","function launchers(uint256) view returns (address)"];
 const launcherAbi = ["function launchToken(string,string,uint256,uint256,uint256,address) returns (address,address)","event TokenLaunched(address indexed token,address indexed pair,address indexed tokenOwner,string name,string symbol,uint256 supply)"];
 const erc20Abi = ["function approve(address,uint256) returns (bool)","function balanceOf(address) view returns (uint256)","function decimals() view returns (uint8)"];
 const $ = id => document.getElementById(id); let provider, signer, account, launcherAddress, launchpadName, hoodieBalance;
