@@ -14,10 +14,10 @@ function showWalletMenu(show){ $("walletMenu").classList.toggle("hidden", !show)
 function setConnected(addr){ account=addr; $("connect").textContent=`${addr.slice(0,6)}…${addr.slice(-4)}`; $("walletAddr").textContent=addr; }
 function disconnect(){ signer=undefined; account=undefined; launcherAddress=undefined; $("connect").textContent="Connect wallet"; $("walletMenu").classList.add("hidden"); toast("Wallet disconnected."); }
 
-$("connect").onclick = e => { e.stopPropagation(); signer ? showWalletMenu(!$("walletMenu").classList.contains("hidden")) : wallet().catch(e=>toast(e.shortMessage||e.message)); };
-$("disconnectBtn").onclick = () => disconnect();
-$("copyAddr").onclick = () => { navigator.clipboard.writeText(account).then(()=>toast("Address copied.")).catch(()=>toast(account)); };
-document.addEventListener("click", () => showWalletMenu(false));
+$("connect").onclick = e => { e.stopPropagation(); signer ? showWalletMenu($("walletMenu").classList.contains("hidden")) : wallet().catch(e=>toast(e.shortMessage||e.message)); };
+$("disconnectBtn").onclick = e => { e.stopPropagation(); disconnect(); };
+$("copyAddr").onclick = e => { e.stopPropagation(); navigator.clipboard.writeText(account).then(()=>toast("Address copied.")).catch(()=>toast(account)); };
+document.addEventListener("click", e => { if(!e.target.closest(".wallet-wrap")) showWalletMenu(false); });
 async function wallet(){ if(signer)return; if(!window.ethereum)throw new Error("Connect an EVM wallet to continue."); provider=new BrowserProvider(window.ethereum); await provider.send("eth_requestAccounts",[]); try{await provider.send("wallet_switchEthereumChain",[{chainId:CHAIN.chainId}]);}catch(e){if(e.code===4902)await provider.send("wallet_addEthereumChain",[CHAIN]);else throw e;} signer=await provider.getSigner(); setConnected(await signer.getAddress()); await restoreLauncher(); }
 async function factory(){ const address=factoryAddress(); if(!isAddress(address))throw new Error("HoodiePad is not configured yet. Add the deployed factory address in app/config.js."); const c=new Contract(address,factoryAbi,signer||provider); if((await c.HOODIE()).toLowerCase()!==HOODIE.toLowerCase())throw new Error("This is not the verified $HOODIE HoodiePad factory."); return c; }
 async function restoreLauncher(){ const saved=localStorage.getItem("hoodiepad.launcher"); if(isAddress(saved||"")) launcherAddress=saved; try{const launchers=await (await factory()).launchersFor(account); if(launchers.length) launcherAddress=launchers.at(-1);}catch{} if(launcherAddress){localStorage.setItem("hoodiepad.launcher",launcherAddress);$("tokenPanel").classList.remove("locked");$("tokenStep").classList.add("active");$("launcherResult").textContent="Your existing launcher is ready to use.";} }
